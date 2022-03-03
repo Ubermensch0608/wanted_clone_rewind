@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import GlobalNav from "./components/GNB/GlobalNav";
+import GlobalNav from "components/GNB/GlobalNav";
 
 import GlobalStyle from "./GlobalStyle";
 
