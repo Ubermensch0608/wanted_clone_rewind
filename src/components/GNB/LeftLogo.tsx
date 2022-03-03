@@ -37,6 +37,7 @@ const HamBurger = styled.button`
 const Logo = styled.h3`
   font-weight: 700;
   font-size: 20px;
+  cursor: pointer;
 `;
 
 export default LeftLogo;
