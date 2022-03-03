@@ -14,3 +14,11 @@
 
 - 지속적 유지보수가 가능한 프로젝트 지향
   - 높은 수준의 코드 탐색과 디버깅
+
+### css-module -> styled-componensts
+
+> 다음과 같은 이유에서 styled-components를 사용했습니다.
+
+- 소형 프로젝트 최적화
+- 동적 props 전달
+- 재사용 가능 layout components 간소화
