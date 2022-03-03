@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
+import GlobalNav from "./components/GNB/GlobalNav";
+
 import GlobalStyle from "./GlobalStyle";
 
 const App = () => {
   return (
     <Fragment>
       <GlobalStyle />
-      <h1>Hello World!</h1>
+      <GlobalNav />
     </Fragment>
   );
 };
