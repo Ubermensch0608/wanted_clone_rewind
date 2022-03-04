@@ -15,12 +15,10 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const slideRef = useRef<HTMLUListElement>(null);
 
   const TOTAL_SLIDES = slides.length - 1;
-
+  console.log(currentSlide);
   useEffect(() => {
     slideRef.current!.style.transition = "all 0.5s ease-in-out";
-    slideRef.current!.style.transform = `translateX(-${
-      (currentSlide - 3) * 1058
-    }px)`;
+    slideRef.current!.style.transform = `translateX(-${currentSlide * 1058}px)`;
   }, [currentSlide]);
 
   const prevSlideHandler = () => {
@@ -44,7 +42,7 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   }
 
   return (
-    <CarouselWrapper>
+    <CarouselContainer>
       <Slides ref={slideRef}>
         {slides.map((data: SliderData, index: number) => (
           <Slide key={data.id} isActive={index === currentSlide}>
@@ -56,27 +54,33 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
                 <hr />
                 <a href="/">
                   <span>바로가기</span>
-                  <span>{` >`}</span>
+                  <span>{">"}</span>
                 </a>
               </SlideInfo>
             )}
           </Slide>
         ))}
       </Slides>
-      {currentSlide}
       <PrevButton onClick={prevSlideHandler}>{"<"}</PrevButton>
       <NextButton onClick={nextSlideHandler}>{">"}</NextButton>
-    </CarouselWrapper>
+      {currentSlide}
+    </CarouselContainer>
   );
 };
 
-export const CarouselWrapper = styled.div`
+export const CarouselContainer = styled.div`
   user-select: none;
+  width: 100%;
+  max-width: 1580px;
+  height: 50%;
+  display: flex;
+  justify-content: center;
 `;
 
 const Slides = styled.ul`
-  position: relative;
-  height: 100vh;
+  /* position: relative; */
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -181,11 +185,11 @@ export const SlideInfo = styled.div`
 `;
 
 const PrevButton = styled(SlideButton)`
-  left: calc((25%-1210px) / 2);
+  left: calc((22%-1058px) / 2);
 `;
 
 const NextButton = styled(SlideButton)`
-  right: calc((25%-1210px) / 2);
+  right: calc((22%-1058px) / 2);
 `;
 
 export default Carousel;
