@@ -1,20 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
-import { DUMMY_SLIDER } from "utils/index";
+import { SlideButton } from "layout";
+import React, { FC, useEffect, useRef, useState } from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export interface sliderData {
+export interface SliderData {
   id: string;
   title: string;
   sub: string;
   imageUrl: string;
 }
 
-const TOTAL_SLIDES = 6;
-
-const Carousel = () => {
+const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef<HTMLUListElement>(null);
+
+  const TOTAL_SLIDES = slides.length - 1;
+
+  useEffect(() => {
+    slideRef.current!.style.transition = "all 0.5s ease-in-out";
+    slideRef.current!.style.transform = `translateX(-${
+      (currentSlide - 3) * 1034
+    }px)`;
+  }, [currentSlide]);
 
   const prevSlideHandler = () => {
     if (currentSlide === 0) {
@@ -32,16 +39,23 @@ const Carousel = () => {
     }
   };
 
-  useEffect(() => {
-    slideRef.current!.style.transition = "all 0.5s ease-in-out";
-    slideRef.current!.style.transform = `translateX(-${currentSlide}00%)`;
-  }, [currentSlide]);
+  if (!Array.isArray(slides) || slides.length <= 0) {
+    return null;
+  }
+
   return (
     <CarouselWrapper>
-      {currentSlide}
       <Slides ref={slideRef}>
-        {DUMMY_SLIDER.map((data: sliderData) => (
-          <Slide key={data.id}>
+        {slides.map((data: SliderData, index: number) => (
+          <Slide
+            key={data.id}
+            isActive={index === currentSlide}
+            isSide={
+              index - 1 === currentSlide ||
+              index + 1 === currentSlide ||
+              index === currentSlide
+            }
+          >
             <SlideImage src={data.imageUrl} alt={data.title} />
             <SlideInfo>
               <h2>{data.title}</h2>
@@ -54,25 +68,29 @@ const Carousel = () => {
           </Slide>
         ))}
       </Slides>
-      <button onClick={prevSlideHandler}>이전으로</button>
-      <button onClick={nextSlideHandler}>다음으로</button>
+      {currentSlide}
+      <PrevButton onClick={prevSlideHandler}>{"<"}</PrevButton>
+      <NextButton onClick={nextSlideHandler}>{">"}</NextButton>
     </CarouselWrapper>
   );
 };
 
-export const CarouselWrapper = styled.div``;
+export const CarouselWrapper = styled.div`
+  user-select: none;
+`;
 
 const Slides = styled.ul`
   position: relative;
-  width: 100%;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const Slide = styled.li`
-  display: inline-block;
-  width: 100%;
+const Slide = styled.li<{ isActive: boolean; isSide: boolean }>`
+  filter: ${(props) =>
+    !props.isActive ? "brightness(50%)" : "brightness(100%)"};
+  opacity: ${(props) => (props.isSide ? "1" : "0")};
 `;
 
 export const SlideImage = styled.img`
@@ -83,6 +101,18 @@ export const SlideImage = styled.img`
 
 export const SlideInfo = styled.div`
   text-align: center;
+
+  @media (min-width: 1200px) {
+    position: absolute;
+    bottom: 250px;
+    left: 300px;
+    width: 330px;
+    height: 146px;
+    border-radius: 4px;
+    background-color: #fff;
+
+    text-align: left;
+  }
 
   h2,
   h3 {
@@ -112,6 +142,14 @@ export const SlideInfo = styled.div`
     color: #36f;
     text-decoration: none;
   }
+`;
+
+const PrevButton = styled(SlideButton)`
+  left: calc((25%-1210px) / 2);
+`;
+
+const NextButton = styled(SlideButton)`
+  right: calc((25%-1210px) / 2);
 `;
 
 export default Carousel;

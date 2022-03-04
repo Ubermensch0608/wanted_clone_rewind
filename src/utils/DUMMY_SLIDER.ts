@@ -38,7 +38,7 @@ const DUMMY_SLIDER = [
   {
     id: "s7",
     title: "성장하는 디자이너의 비결?",
-    sub: "'사이드 프로젝트로 성장하기",
+    sub: "사이드 프로젝트로 성장하기",
     imageUrl: "https://static.wanted.co.kr/images/banners/1530/bd87293c.jpg",
   },
 ];
