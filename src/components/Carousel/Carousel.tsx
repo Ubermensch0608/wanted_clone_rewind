@@ -19,7 +19,7 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   useEffect(() => {
     slideRef.current!.style.transition = "all 0.5s ease-in-out";
     slideRef.current!.style.transform = `translateX(-${
-      (currentSlide - 3) * 1034
+      (currentSlide - 3) * 1058
     }px)`;
   }, [currentSlide]);
 
@@ -47,24 +47,19 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     <CarouselWrapper>
       <Slides ref={slideRef}>
         {slides.map((data: SliderData, index: number) => (
-          <Slide
-            key={data.id}
-            isActive={index === currentSlide}
-            isSide={
-              index - 1 === currentSlide ||
-              index + 1 === currentSlide ||
-              index === currentSlide
-            }
-          >
+          <Slide key={data.id} isActive={index === currentSlide}>
             <SlideImage src={data.imageUrl} alt={data.title} />
-            <SlideInfo>
-              <h2>{data.title}</h2>
-              <h3>{data.sub}</h3>
-              <a href="/">
-                <span>바로가기</span>
-                <span>{` >`}</span>
-              </a>
-            </SlideInfo>
+            {index === currentSlide && (
+              <SlideInfo>
+                <h2>{data.title}</h2>
+                <h3>{data.sub}</h3>
+                <hr />
+                <a href="/">
+                  <span>바로가기</span>
+                  <span>{` >`}</span>
+                </a>
+              </SlideInfo>
+            )}
           </Slide>
         ))}
       </Slides>
@@ -87,10 +82,11 @@ const Slides = styled.ul`
   align-items: center;
 `;
 
-const Slide = styled.li<{ isActive: boolean; isSide: boolean }>`
+const Slide = styled.li<{ isActive: boolean }>`
+  padding: 0 12px;
+
   filter: ${(props) =>
     !props.isActive ? "brightness(50%)" : "brightness(100%)"};
-  opacity: ${(props) => (props.isSide ? "1" : "0")};
 `;
 
 export const SlideImage = styled.img`
@@ -104,13 +100,12 @@ export const SlideInfo = styled.div`
 
   @media (min-width: 1200px) {
     position: absolute;
-    bottom: 250px;
-    left: 300px;
+    bottom: 28px;
+    left: 34px;
     width: 330px;
     height: 146px;
     border-radius: 4px;
     background-color: #fff;
-
     text-align: left;
   }
 
@@ -118,7 +113,7 @@ export const SlideInfo = styled.div`
   h3 {
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   h2 {
@@ -126,6 +121,12 @@ export const SlideInfo = styled.div`
     font-weight: 700;
     font-size: 18px;
     color: #333;
+
+    @media (min-width: 1200px) {
+      margin: 20px 20px 0 20px;
+      font-size: 20px;
+      line-height: 1.5;
+    }
   }
 
   h3 {
@@ -133,14 +134,49 @@ export const SlideInfo = styled.div`
     font-size: 13px;
     font-weight: 500;
     color: #666;
+
+    @media (min-width: 1200px) {
+      margin: 0 20px;
+      font-size: 14px;
+      color: #333;
+      height: 44px;
+      line-height: 1.64;
+    }
   }
 
   a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    min-width: 64px;
+    box-sizing: border-box;
+
     padding: 6px 8px;
     font-size: 14px;
     font-weight: 700;
     color: #36f;
+    line-height: 1;
+    height: 40px;
     text-decoration: none;
+
+    @media (min-width: 1200px) {
+      margin: 6px 0 0 13px;
+    }
+  }
+
+  hr {
+    display: none;
+    height: 1px;
+    margin: 0;
+    border: none;
+    flex-shrink: 0;
+    background-color: #ececec;
+
+    @media (min-width: 1200px) {
+      display: block;
+    }
   }
 `;
 
