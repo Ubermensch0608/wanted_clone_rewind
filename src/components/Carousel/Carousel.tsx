@@ -18,7 +18,9 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   console.log(currentSlide);
   useEffect(() => {
     slideRef.current!.style.transition = "all 0.5s ease-in-out";
-    slideRef.current!.style.transform = `translateX(-${currentSlide * 1058}px)`;
+    slideRef.current!.style.transform = `translateX(${
+      -(currentSlide - 3) * 1058
+    }px)`;
   }, [currentSlide]);
 
   const prevSlideHandler = () => {
@@ -63,7 +65,6 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
       </Slides>
       <PrevButton onClick={prevSlideHandler}>{"<"}</PrevButton>
       <NextButton onClick={nextSlideHandler}>{">"}</NextButton>
-      {currentSlide}
     </CarouselContainer>
   );
 };
@@ -75,15 +76,20 @@ export const CarouselContainer = styled.div`
   height: 50%;
   display: flex;
   justify-content: center;
+  position: relative;
 `;
 
 const Slides = styled.ul`
-  /* position: relative; */
+  position: relative;
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* test */
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 `;
 
 const Slide = styled.li<{ isActive: boolean }>`
@@ -95,6 +101,7 @@ const Slide = styled.li<{ isActive: boolean }>`
 
 export const SlideImage = styled.img`
   width: 1034px;
+
   height: 100%;
   border-radius: 4px;
 `;
@@ -117,7 +124,7 @@ export const SlideInfo = styled.div`
   h3 {
     text-overflow: ellipsis;
     white-space: nowrap;
-    /* overflow: hidden; */
+    overflow: hidden;
   }
 
   h2 {

@@ -6,6 +6,10 @@ const GlobalStyle = createGlobalStyle`
 
     *{
         box-sizing: border-box;
+        &::-webkit-scrollbar {
+            height:0;
+            width: 0;
+        }
     }
 
     body{
@@ -15,6 +19,8 @@ const GlobalStyle = createGlobalStyle`
         justify-content: center;
         align-items:center;
     }
+
+
 `;
 
 export default GlobalStyle;

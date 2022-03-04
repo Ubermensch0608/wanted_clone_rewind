@@ -5,6 +5,7 @@ const SlideButton = styled.button`
   top: 47%;
   width: 30px;
   height: 60px;
+  z-index: 100;
 
   display: flex;
   align-items: center;
