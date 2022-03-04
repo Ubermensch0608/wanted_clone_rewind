@@ -1,7 +1,8 @@
 import { SlideButton } from "layout";
 import React, { FC, useEffect, useRef, useState } from "react";
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import { transform } from "typescript";
 
 export interface SliderData {
   id: string;
@@ -11,20 +12,19 @@ export interface SliderData {
 }
 
 const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef<HTMLUListElement>(null);
 
-  const TOTAL_SLIDES = slides.length - 1;
-  console.log(currentSlide);
+  const TOTAL_SLIDES = slides.length - 2;
+
   useEffect(() => {
-    slideRef.current!.style.transition = "all 0.5s ease-in-out";
-    slideRef.current!.style.transform = `translateX(${
-      -(currentSlide - 3) * 1058
-    }px)`;
+    // slideRef.current!.style.transform = `translateX(${
+    //   -(currentSlide - 4) * 1058
+    // }px)`;
   }, [currentSlide]);
 
   const prevSlideHandler = () => {
-    if (currentSlide === 0) {
+    if (currentSlide === 1) {
       setCurrentSlide(TOTAL_SLIDES);
     } else {
       setCurrentSlide((prevSlide) => prevSlide - 1);
@@ -32,34 +32,62 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   };
 
   const nextSlideHandler = () => {
-    if (currentSlide >= TOTAL_SLIDES) {
-      setCurrentSlide(0);
-    } else {
-      setCurrentSlide((prevSlide) => prevSlide + 1);
-    }
+    slideRef.current!.style.transform = `translateX(-14.286%)`;
+
+    // if (currentSlide !== TOTAL_SLIDES) {
+    //   setCurrentSlide((prevSlide) => prevSlide + 1);
+    // } else if (currentSlide === TOTAL_SLIDES) {
+    //   setCurrentSlide(1);
+    // }
   };
+
+  //   useEffect(() => {
+  //     const autoSlide: any = setTimeout(() => {
+  //       nextSlideHandler();
+
+  //       return clearTimeout(autoSlide);
+  //     }, 4000);
+  //   }, [currentSlide]);
 
   if (!Array.isArray(slides) || slides.length <= 0) {
     return null;
   }
 
+  const setNewSlideHandler = () => {
+    const firstElementChild: any = slideRef.current!.firstElementChild;
+    slideRef.current!.appendChild(firstElementChild);
+    slideRef.current!.style.transition = `none`;
+    slideRef.current!.style.transform = `transitionX(0)`;
+    setTimeout(() => {
+      slideRef.current!.style.transition = `all 0.5s ease-in-out`;
+    });
+  };
+
   return (
     <CarouselContainer>
       <Slides ref={slideRef}>
         {slides.map((data: SliderData, index: number) => (
-          <Slide key={data.id} isActive={index === currentSlide}>
+          <Slide
+            key={data.id}
+            isActive={index === currentSlide}
+            showSlides={
+              index === currentSlide - 1 ||
+              index === currentSlide ||
+              index === currentSlide + 1
+            }
+            onTransitionEnd={setNewSlideHandler}
+          >
             <SlideImage src={data.imageUrl} alt={data.title} />
-            {index === currentSlide && (
-              <SlideInfo>
-                <h2>{data.title}</h2>
-                <h3>{data.sub}</h3>
-                <hr />
-                <a href="/">
-                  <span>바로가기</span>
-                  <span>{">"}</span>
-                </a>
-              </SlideInfo>
-            )}
+
+            <SlideInfo isActive={index === currentSlide}>
+              <h2>{data.title}</h2>
+              <h3>{data.sub}</h3>
+              <hr />
+              <a href="/">
+                <span>바로가기</span>
+                <span>{">"}</span>
+              </a>
+            </SlideInfo>
           </Slide>
         ))}
       </Slides>
@@ -73,7 +101,7 @@ export const CarouselContainer = styled.div`
   user-select: none;
   width: 100%;
   max-width: 1580px;
-  height: 50%;
+  height: 100%;
   display: flex;
   justify-content: center;
   position: relative;
@@ -90,24 +118,28 @@ const Slides = styled.ul`
   /* test */
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+
+  transition: all 0.5s ease-in-out;
 `;
 
-const Slide = styled.li<{ isActive: boolean }>`
+const Slide = styled.li<{ isActive: boolean; showSlides: boolean }>`
   padding: 0 12px;
-
+  height: 100%;
+  cursor: pointer;
   filter: ${(props) =>
     !props.isActive ? "brightness(50%)" : "brightness(100%)"};
 `;
 
 export const SlideImage = styled.img`
   width: 1034px;
-
   height: 100%;
   border-radius: 4px;
 `;
 
-export const SlideInfo = styled.div`
+export const SlideInfo = styled.div<{ isActive: boolean }>`
   text-align: center;
+  opacity: ${(props) => (!props.isActive ? "0" : "1")};
+  transition: opacity 0.1s ease-out;
 
   @media (min-width: 1200px) {
     position: absolute;
