@@ -1,11 +1,12 @@
 import React, { Fragment } from "react";
+import Carousel from "./components/Carousel/Carousel";
 import GlobalStyle from "./GlobalStyle";
 
 const App = () => {
   return (
     <Fragment>
       <GlobalStyle />
-      <h1>Hello World!</h1>
+      <Carousel />
     </Fragment>
   );
 };
