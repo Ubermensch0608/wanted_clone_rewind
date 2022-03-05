@@ -1,8 +1,9 @@
-import { SlideButton } from "layout";
 import React, { FC, useEffect, useRef, useState } from "react";
 
+import { SlideButton } from "layout";
+import { NextArrow, PrevArrow, BlueArrow } from "assets/index";
+
 import styled from "styled-components";
-import { transform } from "typescript";
 
 export interface SliderData {
   id: string;
@@ -18,9 +19,9 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const TOTAL_SLIDES = slides.length - 2;
 
   useEffect(() => {
-    // slideRef.current!.style.transform = `translateX(${
-    //   -(currentSlide - 4) * 1058
-    // }px)`;
+    slideRef.current!.style.transform = `translateX(${
+      -(currentSlide - 4) * 1058
+    }px)`;
   }, [currentSlide]);
 
   const prevSlideHandler = () => {
@@ -32,13 +33,20 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   };
 
   const nextSlideHandler = () => {
-    slideRef.current!.style.transform = `translateX(-14.286%)`;
+    if (currentSlide !== TOTAL_SLIDES) {
+      setCurrentSlide((prevSlide) => prevSlide + 1);
+    } else if (currentSlide === TOTAL_SLIDES) {
+      setCurrentSlide(1);
+    }
+  };
 
-    // if (currentSlide !== TOTAL_SLIDES) {
-    //   setCurrentSlide((prevSlide) => prevSlide + 1);
-    // } else if (currentSlide === TOTAL_SLIDES) {
-    //   setCurrentSlide(1);
-    // }
+  const testHandler = () => {
+    if (currentSlide === TOTAL_SLIDES + 1) {
+      slideRef.current!.style.transition = `none`;
+      setTimeout(() => {
+        slideRef.current!.style.transition = `all 0.5s ease-in-out`;
+      }, 1000);
+    }
   };
 
   //   useEffect(() => {
@@ -53,19 +61,9 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     return null;
   }
 
-  const setNewSlideHandler = () => {
-    const firstElementChild: any = slideRef.current!.firstElementChild;
-    slideRef.current!.appendChild(firstElementChild);
-    slideRef.current!.style.transition = `none`;
-    slideRef.current!.style.transform = `transitionX(0)`;
-    setTimeout(() => {
-      slideRef.current!.style.transition = `all 0.5s ease-in-out`;
-    });
-  };
-
   return (
     <CarouselContainer>
-      <Slides ref={slideRef}>
+      <Slides ref={slideRef} onTransitionEnd={testHandler}>
         {slides.map((data: SliderData, index: number) => (
           <Slide
             key={data.id}
@@ -75,7 +73,6 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
               index === currentSlide ||
               index === currentSlide + 1
             }
-            onTransitionEnd={setNewSlideHandler}
           >
             <SlideImage src={data.imageUrl} alt={data.title} />
 
@@ -84,15 +81,20 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
               <h3>{data.sub}</h3>
               <hr />
               <a href="/">
-                <span>바로가기</span>
-                <span>{">"}</span>
+                <span>
+                  바로가기 <BlueArrow width={14} height={14} fill={"#36f"} />
+                </span>
               </a>
             </SlideInfo>
           </Slide>
         ))}
       </Slides>
-      <PrevButton onClick={prevSlideHandler}>{"<"}</PrevButton>
-      <NextButton onClick={nextSlideHandler}>{">"}</NextButton>
+      <PrevButton onClick={prevSlideHandler}>
+        <PrevArrow />
+      </PrevButton>
+      <NextButton onClick={nextSlideHandler}>
+        <NextArrow />
+      </NextButton>
     </CarouselContainer>
   );
 };
@@ -101,7 +103,7 @@ export const CarouselContainer = styled.div`
   user-select: none;
   width: 100%;
   max-width: 1580px;
-  height: 100%;
+  height: 50%;
   display: flex;
   justify-content: center;
   position: relative;
@@ -124,7 +126,6 @@ const Slides = styled.ul`
 
 const Slide = styled.li<{ isActive: boolean; showSlides: boolean }>`
   padding: 0 12px;
-  height: 100%;
   cursor: pointer;
   filter: ${(props) =>
     !props.isActive ? "brightness(50%)" : "brightness(100%)"};
@@ -132,8 +133,18 @@ const Slide = styled.li<{ isActive: boolean; showSlides: boolean }>`
 
 export const SlideImage = styled.img`
   width: 1034px;
+
   height: 100%;
   border-radius: 4px;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    width: 90vw;
+  }
+
+  @media (max-width: 767px) {
+    width: 90vw;
+    height: 50vw;
+  }
 `;
 
 export const SlideInfo = styled.div<{ isActive: boolean }>`
@@ -156,7 +167,7 @@ export const SlideInfo = styled.div<{ isActive: boolean }>`
   h3 {
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   h2 {
@@ -220,6 +231,10 @@ export const SlideInfo = styled.div<{ isActive: boolean }>`
     @media (min-width: 1200px) {
       display: block;
     }
+  }
+
+  span {
+    display: flex;
   }
 `;
 

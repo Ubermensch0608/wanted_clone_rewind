@@ -1,5 +1,11 @@
 const DUMMY_SLIDER = [
   {
+    id: "s-1",
+    title: "성장하는 디자이너의 비결?",
+    sub: "사이드 프로젝트로 성장하기",
+    imageUrl: "https://static.wanted.co.kr/images/banners/1530/bd87293c.jpg",
+  },
+  {
     id: "s1",
     title: "미래 자동차 시대를 선도하는",
     sub: "LG전자 'VS사업본부' 기업노트",
@@ -40,6 +46,12 @@ const DUMMY_SLIDER = [
     title: "성장하는 디자이너의 비결?",
     sub: "사이드 프로젝트로 성장하기",
     imageUrl: "https://static.wanted.co.kr/images/banners/1530/bd87293c.jpg",
+  },
+  {
+    id: "s+1",
+    title: "미래 자동차 시대를 선도하는",
+    sub: "LG전자 'VS사업본부' 기업노트",
+    imageUrl: "https://static.wanted.co.kr/images/banners/1546/65e46a35.jpg",
   },
 ];
 
