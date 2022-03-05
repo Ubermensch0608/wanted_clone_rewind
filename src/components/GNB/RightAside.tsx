@@ -1,4 +1,4 @@
-import { SearchIcon } from "assets";
+import { SearchIcon } from "assets/index";
 import styled from "styled-components";
 
 const RightAside = () => {

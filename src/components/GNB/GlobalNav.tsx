@@ -10,11 +10,9 @@ const GlobalNav = () => {
     <GNBWrapper>
       <GNB>
         <NavigationBar>
-          <div>
-            <LeftLogo />
-            <CenterMenu />
-            <RightAside />
-          </div>
+          <LeftLogo />
+          <CenterMenu />
+          <RightAside />
         </NavigationBar>
       </GNB>
     </GNBWrapper>
