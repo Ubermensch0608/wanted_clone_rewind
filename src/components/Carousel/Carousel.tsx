@@ -34,15 +34,6 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     }
   };
 
-  const testHandler = () => {
-    if (currentSlide === TOTAL_SLIDES + 1) {
-      slideRef.current!.style.transition = `none`;
-      setTimeout(() => {
-        slideRef.current!.style.transition = `all 0.5s ease-in-out`;
-      }, 1000);
-    }
-  };
-
   // useEffect(() => {
   //   const autoSlide: any = setTimeout(() => {
   //     nextSlideHandler();
@@ -57,7 +48,7 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
 
   return (
     <Styled.CarouselContainer>
-      <Styled.Slides ref={slideRef} onTransitionEnd={testHandler}>
+      <Styled.Slides ref={slideRef}>
         {slides.map((data: SliderData, index: number) => (
           <Styled.Slide
             key={data.id}
