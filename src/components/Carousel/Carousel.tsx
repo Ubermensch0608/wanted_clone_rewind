@@ -60,7 +60,7 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     return () => {
       clearInterval(autoSlide);
     };
-  }, [currentSlide, isMouseOver]);
+  }, [currentSlide, isMouseOver, nextSlideHandler]);
 
   if (!Array.isArray(slides) || slides.length <= 0) {
     return null;
