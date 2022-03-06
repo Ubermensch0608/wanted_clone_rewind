@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 
 import SlideInfo from "./SlideInfo";
 import { PrevArrow, NextArrow } from "assets/index";
@@ -42,13 +42,13 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     }
   };
 
-  const nextSlideHandler = () => {
+  const nextSlideHandler = useCallback(() => {
     if (currentSlide !== TOTAL_SLIDES) {
       setCurrentSlide((prevSlide) => prevSlide + 1);
     } else if (currentSlide === TOTAL_SLIDES) {
       setCurrentSlide(1);
     }
-  };
+  }, [currentSlide, TOTAL_SLIDES]);
 
   useEffect(() => {
     const autoSlide: any = setInterval(() => {
@@ -60,7 +60,7 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     return () => {
       clearInterval(autoSlide);
     };
-  }, [currentSlide, isMouseOver]);
+  }, [currentSlide, isMouseOver, nextSlideHandler]);
 
   if (!Array.isArray(slides) || slides.length <= 0) {
     return null;
