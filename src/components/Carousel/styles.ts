@@ -67,7 +67,6 @@ export const SlideInfo = styled.div<{ isActive: boolean }>`
   h3 {
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
   }
 
   h2 {
