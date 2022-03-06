@@ -4,16 +4,15 @@ import styled from "styled-components";
 export const CarouselContainer = styled.div`
   user-select: none;
   width: 100%;
-  max-width: 1580px;
   height: 100%;
   display: flex;
   justify-content: center;
   position: relative;
   margin: 0 auto;
+  overflow: hidden;
 `;
 
 export const Slides = styled.ul`
-  position: relative;
   height: 100%;
   width: 100%;
   display: flex;

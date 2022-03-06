@@ -20,8 +20,9 @@ const App = () => {
 };
 
 const Main = styled.main`
-  @media (min-width: 1200px) {
-    padding-top: 25px;
+  padding-top: 75px;
+  @media (max-width: 991px) {
+    padding-top: 140px;
   }
 `;
 

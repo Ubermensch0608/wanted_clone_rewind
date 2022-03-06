@@ -16,7 +16,6 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   useEffect(() => {
     const childrenNode = slideRef.current!.children[0];
     const SLIDE_WIDTH = childrenNode.clientWidth;
-    console.log(SLIDE_WIDTH);
     // slideRef.current!.style.transform = `translateX(${
     //   -(slides.length / TOTAL_SLIDES) * SLIDE_WIDTH
     // }px)`;
@@ -77,7 +76,6 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     setIsMouseOver(false);
   };
 
-  console.log(isMouseOver);
   return (
     <Styled.CarouselContainer>
       <Styled.Slides

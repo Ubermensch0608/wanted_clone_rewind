@@ -18,5 +18,9 @@ const SlideButton = styled.button`
 
   cursor: pointer;
   user-select: none;
+
+  @media (max-width: 1199px) {
+    display: none;
+  }
 `;
 export { SlideButton };
