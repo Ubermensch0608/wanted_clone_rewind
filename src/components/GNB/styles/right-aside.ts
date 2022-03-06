@@ -62,7 +62,7 @@ export const LoginButton = styled.button`
     padding: 0 3px;
   }
 
-  @media (min-width: 768px) and (max-width: 991px) {
+  @media (max-width: 991px) {
     display: none;
   }
 `;
@@ -78,6 +78,10 @@ export const AsideServiceItem = styled(AsideItem)`
     background-color: #e1e2e3;
     margin: auto 10px;
     box-sizing: border-box;
+  }
+
+  @media (max-width: 991px) {
+    display: none;
   }
 `;
 
