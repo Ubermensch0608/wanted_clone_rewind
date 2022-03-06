@@ -21,12 +21,17 @@ export const Contents = styled.ul`
   }
 `;
 
-export const Content = styled.li`
+export const Content = styled.li<{ isSelected: boolean }>`
   height: inherit;
   display: inline-block;
 
   font-weight: 600;
   font-size: 13px;
+
+  box-shadow: ${(props) => props.isSelected && " inset 0 -2px #258bf7; "};
+  &:hover {
+    box-shadow: inset 0 -2px rgb(221, 221, 221);
+  }
 
   &:nth-child(1) {
     @media (min-width: 1200px) {

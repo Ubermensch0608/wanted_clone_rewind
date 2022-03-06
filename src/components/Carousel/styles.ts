@@ -5,7 +5,7 @@ export const CarouselContainer = styled.div`
   user-select: none;
   width: 100%;
   max-width: 1580px;
-  height: 50%;
+  height: 100%;
   display: flex;
   justify-content: center;
   position: relative;
