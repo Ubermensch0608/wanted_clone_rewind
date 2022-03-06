@@ -22,7 +22,11 @@ export const Slides = styled.ul`
   transition: all 0.5s ease-in-out;
 `;
 
-export const Slide = styled.li<{ isActive: boolean; showSlides: boolean }>`
+export const Slide = styled.li<{
+  isActive: boolean;
+  showSlides: boolean;
+  onChage: () => void;
+}>`
   padding: 0 12px;
   cursor: pointer;
   filter: ${(props) =>

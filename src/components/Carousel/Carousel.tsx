@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import SlideInfo from "./SlideInfo";
 import { PrevArrow, NextArrow } from "assets/index";
@@ -13,13 +13,29 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const TOTAL_SLIDES = slides.length - 2;
 
   useEffect(() => {
+    const childrenNode = slideRef.current!.children[0];
+    const SLIDE_WIDTH = childrenNode.clientWidth;
+    console.log(SLIDE_WIDTH);
+    // slideRef.current!.style.transform = `translateX(${
+    //   -(slides.length / TOTAL_SLIDES) * SLIDE_WIDTH
+    // }px)`;
+
     slideRef.current!.style.transform = `translateX(${
-      -(currentSlide - 4) * 1058
+      -(currentSlide - 4) * SLIDE_WIDTH
     }px)`;
+    // if (currentSlide === TOTAL_SLIDES - 1) {
+    //   setTimeout(() => {
+    //     slideRef.current!.style.transition = `0s`;
+    //     setCurrentSlide(0);
+    //   }, 501);
+    //   setTimeout(() => {
+    //     // slideRef.current!.style.transition = `all 0.5s ease-in-out`;
+    //   }, 501);
+    // }
   }, [currentSlide]);
 
   const prevSlideHandler = () => {
-    if (currentSlide === 1) {
+    if (currentSlide === 0) {
       setCurrentSlide(TOTAL_SLIDES);
     } else {
       setCurrentSlide((prevSlide) => prevSlide - 1);
@@ -34,17 +50,23 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
     }
   };
 
-  // useEffect(() => {
-  //   const autoSlide: any = setTimeout(() => {
-  //     nextSlideHandler();
+  useEffect(() => {
+    const autoSlide: any = setInterval(() => {
+      nextSlideHandler();
+    }, 4000);
 
-  //     return clearTimeout(autoSlide);
-  //   }, 4000);
-  // }, [currentSlide]);
+    return () => {
+      clearInterval(autoSlide);
+    };
+  }, [currentSlide]);
 
   if (!Array.isArray(slides) || slides.length <= 0) {
     return null;
   }
+
+  const sizeChangeHandler = () => {
+    console.log("hi");
+  };
 
   return (
     <Styled.CarouselContainer>
@@ -58,6 +80,7 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
               index === currentSlide ||
               index === currentSlide + 1
             }
+            onChage={sizeChangeHandler}
           >
             <Styled.SlideImage src={data.imageUrl} alt={data.title} />
             <SlideInfo
