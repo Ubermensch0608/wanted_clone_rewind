@@ -8,6 +8,7 @@ import * as Styled from "./styles";
 
 const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(1);
+  const [isMouseOver, setIsMouseOver] = useState(false);
   const slideRef = useRef<HTMLUListElement>(null);
 
   const TOTAL_SLIDES = slides.length - 2;
@@ -52,13 +53,15 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
 
   useEffect(() => {
     const autoSlide: any = setInterval(() => {
-      nextSlideHandler();
+      if (!isMouseOver) {
+        nextSlideHandler();
+      }
     }, 4000);
 
     return () => {
       clearInterval(autoSlide);
     };
-  }, [currentSlide]);
+  }, [currentSlide, isMouseOver]);
 
   if (!Array.isArray(slides) || slides.length <= 0) {
     return null;
@@ -67,10 +70,21 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const sizeChangeHandler = () => {
     console.log("hi");
   };
+  const slidePauseHandler = () => {
+    setIsMouseOver(true);
+  };
+  const slideReStartHandler = () => {
+    setIsMouseOver(false);
+  };
 
+  console.log(isMouseOver);
   return (
     <Styled.CarouselContainer>
-      <Styled.Slides ref={slideRef}>
+      <Styled.Slides
+        ref={slideRef}
+        onMouseEnter={slidePauseHandler}
+        onMouseLeave={slideReStartHandler}
+      >
         {slides.map((data: SliderData, index: number) => (
           <Styled.Slide
             key={data.id}
@@ -80,7 +94,6 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
               index === currentSlide ||
               index === currentSlide + 1
             }
-            onChage={sizeChangeHandler}
           >
             <Styled.SlideImage src={data.imageUrl} alt={data.title} />
             <SlideInfo

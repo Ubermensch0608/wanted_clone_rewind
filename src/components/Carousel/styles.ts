@@ -25,7 +25,6 @@ export const Slides = styled.ul`
 export const Slide = styled.li<{
   isActive: boolean;
   showSlides: boolean;
-  onChage: () => void;
 }>`
   padding: 0 12px;
   cursor: pointer;
