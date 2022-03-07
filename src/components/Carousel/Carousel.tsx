@@ -9,8 +9,10 @@ import * as Styled from "./styles";
 const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const [isMouseOver, setIsMouseOver] = useState(false);
+  const [isDrag, setIsDrag] = useState(false);
+  const [startX, setStartX] = useState<number>(0);
   const slideRef = useRef<HTMLUListElement>(null);
-
+  const scrollRef = useRef<HTMLDivElement>(null);
   const TOTAL_SLIDES = slides.length - 2;
 
   useEffect(() => {
@@ -71,14 +73,42 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
   };
   const slideReStartHandler = () => {
     setIsMouseOver(false);
+    setIsDrag(false);
+  };
+
+  const startDragHandler = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setIsDrag(true);
+    setStartX(event.pageX + slideRef.current!.scrollLeft);
+  };
+
+  const mouseDragHandler = (event: React.MouseEvent) => {
+    if (isDrag) {
+      scrollRef.current!.scrollLeft = startX - event.pageX;
+    }
+  };
+
+  const endDragHandler = (event: React.MouseEvent) => {
+    if (isDrag) {
+      if (startX > event.pageX) {
+        setCurrentSlide((prev) => prev + 1);
+      }
+    } else {
+      setCurrentSlide((prev) => prev - 1);
+    }
+
+    setIsDrag(false);
   };
 
   return (
-    <Styled.CarouselContainer>
+    <Styled.CarouselContainer ref={scrollRef}>
       <Styled.Slides
         ref={slideRef}
         onMouseEnter={slidePauseHandler}
         onMouseLeave={slideReStartHandler}
+        onMouseDown={startDragHandler}
+        onMouseMove={mouseDragHandler}
+        onMouseUp={endDragHandler}
       >
         {slides.map((data: SliderData, index: number) => (
           <Styled.Slide
