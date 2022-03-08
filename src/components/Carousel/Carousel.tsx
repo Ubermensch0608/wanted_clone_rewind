@@ -84,17 +84,17 @@ const Carousel: FC<{ slides: SliderData[] }> = ({ slides }) => {
 
   const mouseDragHandler = (event: React.MouseEvent) => {
     if (isDrag) {
-      scrollRef.current!.scrollLeft = startX - event.pageX;
+      slideRef.current!.scrollLeft = startX - event.pageX;
     }
   };
 
   const endDragHandler = (event: React.MouseEvent) => {
     if (isDrag) {
       if (startX > event.pageX) {
-        setCurrentSlide((prev) => prev + 1);
+        nextSlideHandler();
+      } else {
+        prevSlideHandler();
       }
-    } else {
-      setCurrentSlide((prev) => prev - 1);
     }
 
     setIsDrag(false);
