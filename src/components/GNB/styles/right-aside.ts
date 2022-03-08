@@ -15,6 +15,7 @@ export const Aside = styled.ul`
 
   @media (max-width: 767px) {
     margin-top: -5px;
+    margin-right: 10px;
   }
 `;
 
@@ -51,6 +52,15 @@ export const SearchButton = styled.button`
 
   @media (min-width: 768px) and (max-width: 991px) {
     margin: 0;
+  }
+`;
+
+export const ElseButton = styled.button`
+  position: relative;
+  margin-top: 5px;
+
+  @media (min-width: 992px) {
+    display: none;
   }
 `;
 

@@ -1,4 +1,4 @@
-import { SearchIcon } from "assets/index";
+import { ElseIcon, SearchIcon } from "assets/index";
 import * as Styled from "./styles/right-aside";
 
 const RightAside = () => {
@@ -9,6 +9,11 @@ const RightAside = () => {
           <Styled.SearchButton>
             <SearchIcon />
           </Styled.SearchButton>
+        </Styled.AsideItem>
+        <Styled.AsideItem>
+          <Styled.ElseButton>
+            <ElseIcon />
+          </Styled.ElseButton>
         </Styled.AsideItem>
         <Styled.AsideItem>
           <Styled.LoginButton>회원가입/로그인</Styled.LoginButton>

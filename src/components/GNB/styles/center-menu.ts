@@ -18,6 +18,7 @@ export const Contents = styled.ul`
 
   @media (max-width: 767px) {
     text-align: left;
+    margin-left: 10px;
   }
 `;
 
@@ -31,6 +32,12 @@ export const Content = styled.li<{ isSelected: boolean }>`
   box-shadow: ${(props) => props.isSelected && " inset 0 -2px #258bf7; "};
   &:hover {
     box-shadow: inset 0 -2px rgb(221, 221, 221);
+  }
+
+  @media (max-width: 991px) {
+    &:hover {
+      box-shadow: inset 0 -2px #258bf7;
+    }
   }
 
   &:nth-child(1) {
